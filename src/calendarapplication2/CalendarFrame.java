@@ -156,7 +156,7 @@ public class CalendarFrame extends javax.swing.JFrame {
         int[][] printCalendar = m.getCalender(year, month);
         //配列の長さを印字することで、二次元配列に格納されていることを確認
         int k = printCalendar.length;
-        System.out.print(k);
+        System.out.print(k*k);
         
         //ここで、gridlayoutに転写。for文でadd。
         //Labelをadd。そのLabelの文字列がカレンダーの数字
