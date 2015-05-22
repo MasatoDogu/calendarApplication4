@@ -40,7 +40,7 @@ public class CalendarFrame extends javax.swing.JFrame {
         buttonMatrix = new JButton[6][7];
         //今日のカレンダーを作成し、配列に格納
         int[][] printCalendar = m.getCalender(year, month);
-        /*
+        
         int i = 1;
         for ( int row = 0; row < 6; row++ ) {
             for ( int column = 0; column < 7; column++ ) {
@@ -50,11 +50,11 @@ public class CalendarFrame extends javax.swing.JFrame {
                 i++;
             }
         }
-        */
+        
         int k = printCalendar.length;
-        for(int i = 0; i < k; i++){
+        for(int l = 0; l < k; l++){
             for(int j = 0; j < 7; j++){
-                buttonMatrix[i][j].setText(Integer.toString(printCalendar[i][j]));
+                buttonMatrix[l][j].setText(Integer.toString(printCalendar[l][j]));
             }
         }
         pack();
@@ -156,7 +156,7 @@ public class CalendarFrame extends javax.swing.JFrame {
         int[][] printCalendar = m.getCalender(year, month);
         //配列の長さを印字することで、二次元配列に格納されていることを確認
         int k = printCalendar.length;
-        System.out.print(k*k);
+        
         
         //ここで、gridlayoutに転写。for文でadd。
         //Labelをadd。そのLabelの文字列がカレンダーの数字
@@ -170,15 +170,18 @@ public class CalendarFrame extends javax.swing.JFrame {
             }
         }
         //一日より前のボタンを消すか非表示にしたい！！！
+        //for文でまわして、数字を入れているときに、0のものはenabled(false)にしてしまう。
         for(int j = 0; j < 7; j++){
-            if(buttonMatrix[0][j].getText() == "0"){
-                /*buttonMatrix[0][j].setOpaque(false);
+            if(buttonMatrix[0][j].getText().equals("0")){
+                buttonMatrix[0][j].setEnabled(false);
+                /*
                 buttonMatrix[0][j].setContentAreaFilled(false);
                 buttonMatrix[0][j].setBorderPainted(false);
+                
+                buttonMatrix[0][j].setVisibility(buttonMatrix.INVISIBLE);
+                remove(buttonMatrix[0][j]);
                 */
-                //buttonMatrix[0][j].setVisibility(buttonMatrix.INVISIBLE);
-                //remove(buttonMatrix[0][j]);
-            }
+                }
         }
         
         
