@@ -4,13 +4,16 @@
  * and open the template in the editor.
  */
 
-package calendarapplication2;
+package calendarapplication4;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Calendar;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
@@ -46,21 +49,52 @@ public class CalendarFrame extends javax.swing.JFrame {
             for ( int column = 0; column < 7; column++ ) {
                 //ボタンの実体を生成
                 buttonMatrix[row][column] = new JButton(Integer.toString(i));
+                //パネルに加える
                 calendarPanel.add( buttonMatrix[row][column] );
+                //もし、カレンダーのテキストが0なら、それは押せないようにenableにする
+                
                 i++;
             }
         }
+        //アクションリスナーを作る
+        ActionListener aButtonActionListener = new ButtonActionListener();
         
         int k = printCalendar.length;
         for(int l = 0; l < k; l++){
             for(int j = 0; j < 7; j++){
                 buttonMatrix[l][j].setText(Integer.toString(printCalendar[l][j]));
+                //それをボタン自身にaddする
+                buttonMatrix[l][j].addActionListener(aButtonActionListener);
+                if(printCalendar[l][j] == 0){
+                    buttonMatrix[l][j].setEnabled(false);
+                }
+                
             }
         }
+        
         pack();
         calendarPanel.repaint();
     }
-
+    
+    class ButtonActionListener implements ActionListener {
+        // ----------------------------------------
+        public void actionPerformed( ActionEvent e ) {
+            // ----------------------------------------
+            // イベントソースをgetSourceで取れる。そしたら、getTextで何日が押されたかはわかる。
+             JButton b = (JButton)e.getSource();
+             //押されたのが何日だったのかをコンソールに表示
+             System.out.println(b.getText());
+             
+             //次に、ポップアップウィンドウをnewする。
+             JFrame Schedule = new JFrame();
+             //そこにJTextAreaをもうけ、何か予定を記入して、今とった数字・日付で保存する。
+             //JTextAreaに書き込まれた内容を取ってくる。それをファイルの内容とする。
+             
+            // ----------------------------------------
+            
+        }
+        // ----------------------------------------
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -167,13 +201,21 @@ public class CalendarFrame extends javax.swing.JFrame {
         for(int i = 0; i < k; i++){
             for(int j = 0; j < 7; j++){
                 buttonMatrix[i][j].setText(Integer.toString(printCalendar[i][j]));
+                //コンストラクタと処理が重複しているので、メソッドに書き出して、呼んであげる形が良い。
+                if(printCalendar[i][j] == 0){
+                    buttonMatrix[i][j].setEnabled(false);
+                }else{
+                    buttonMatrix[i][j].setEnabled(true);
+                }
             }
         }
+        
         //一日より前のボタンを消すか非表示にしたい！！！
         //for文でまわして、数字を入れているときに、0のものはenabled(false)にしてしまう。
-        for(int j = 0; j < 7; j++){
-            if(buttonMatrix[0][j].getText().equals("0")){
-                buttonMatrix[0][j].setEnabled(false);
+        //
+        //for(int j = 0; j < 7; j++){
+        //    if(buttonMatrix[0][j].getText().equals("0")){
+        //        buttonMatrix[0][j].setEnabled(false);
                 /*
                 buttonMatrix[0][j].setContentAreaFilled(false);
                 buttonMatrix[0][j].setBorderPainted(false);
@@ -181,8 +223,9 @@ public class CalendarFrame extends javax.swing.JFrame {
                 buttonMatrix[0][j].setVisibility(buttonMatrix.INVISIBLE);
                 remove(buttonMatrix[0][j]);
                 */
-                }
+        //        }
         }
+        /*
         
         
         calendarPanel.repaint();
